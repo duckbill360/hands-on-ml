@@ -25,7 +25,7 @@ svm_clf.fit(X, y)
 from sklearn.datasets import make_moons
 from sklearn.preprocessing import PolynomialFeatures
 
-moon = make_moons(n_samples=10000, noise=0.15, random_state=0)
+moon = make_moons(noise=0.15, random_state=0)
 plt.scatter(moon[0][:, 0], moon[0][:, 1], c=moon[1])
 plt.show()
 
@@ -56,5 +56,3 @@ rbf_kernel_svm_clf = Pipeline([
     ('svm_clf', SVC(kernel='rbf', gamma=5, C=0.001))
 ])
 rbf_kernel_svm_clf.fit(X, y)
-
-
