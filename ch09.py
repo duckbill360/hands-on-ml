@@ -1,5 +1,9 @@
 import tensorflow as tf
 
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+
 x = tf.Variable(3, name='x')
 y = tf.Variable(4, name='y')
 f = x * x * y + y +2
@@ -7,7 +11,7 @@ f = x * x * y + y +2
 # Actually run the graph
 init = tf.global_variables_initializer()
 
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     init.run()
     result = f.eval()
 
@@ -26,7 +30,7 @@ x = w + 2
 y = x + 5
 z = x * 3
 
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     print(y.eval())
     print(z.eval())
 
@@ -34,7 +38,7 @@ with tf.Session() as sess:
 # If you want to evaluate y and z efficiently, without evaluating w and x twice as in the
 # previous code, you must ask TensorFlow to evaluate both y and z in just one graph
 # run, as shown in the following code:
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     y_val, z_val = sess.run([y, z])
     print(y_val)
     print(z_val)
@@ -53,7 +57,7 @@ y = tf.constant(housing.target.reshape(-1, 1), dtype=tf.float32, name='y')
 XT = tf.transpose(X)
 theta = tf.matmul(tf.matmul(tf.matrix_inverse(tf.matmul(XT, X)), XT), y)
 
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     theta_val = theta.eval()
 
 
@@ -79,7 +83,7 @@ training_op = tf.assign(theta, theta - learning_rate * gradients)
 
 init = tf.global_variables_initializer()
 
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     sess.run(init)
 
     for epoch in range(n_epochs):
@@ -103,7 +107,7 @@ training_op = optimizer.minimize(mse)
 
 init = tf.global_variables_initializer()
 
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     sess.run(init)
 
     for epoch in range(n_epochs):
